@@ -1,28 +1,102 @@
-<div class="playlist-container">
+<div class="playlist-header">
+  <div class="playlist-cover">
+    <img [src]="playlistCover" alt="Playlist Cover">
+  </div>
+  <div class="playlist-info">
+    <span class="playlist-type">PLAYLIST</span>
+    <h1>MAP OF THE SOUL 7</h1>
+    <p class="playlist-description">Las mejores canciones de BTS</p>
+    <div class="playlist-meta">
+      <span>BTS</span>
+      <span class="dot">•</span>
+      <span>{{ (playlist$ | async)?.length }} canciones</span>
+    </div>
+  </div>
+</div>
 
-  <div class="song-list">
-    <h3>MAP OF THE SOUL 7</h3> <ul>
-      <li 
-        *ngFor="let song of (playlist$ | async)"
-        (click)="onSongClick(song)"
-        [class.active]="song.id === (currentSong$ | async)?.id">
-        
-        {{ song.title }}
-        
-        <span *ngIf="song.id === (currentSong$ | async)?.id">
-           🔊 </span>
-      </li>
-    </ul>
+<div class="playlist-actions">
+  <button class="btn-play-all">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M8 5v14l11-7z"/>
+    </svg>
+  </button>
+  <button class="btn-icon">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+    </svg>
+  </button>
+  <button class="btn-icon">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+      <circle cx="5" cy="12" r="1.5"/>
+      <circle cx="12" cy="12" r="1.5"/>
+      <circle cx="19" cy="12" r="1.5"/>
+    </svg>
+  </button>
+</div>
+
+<div class="tracklist">
+  <div class="tracklist-header">
+    <div class="track-number">#</div>
+    <div class="track-title">TÍTULO</div>
+    <div class="track-album">ÁLBUM</div>
+    <div class="track-duration">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+      </svg>
+    </div>
   </div>
 
-  <div class="album-art" *ngIf="(currentSong$ | async) as song">
-    <img [src]="song.imageUrl" alt="Album Art">
-    <h3>{{ song.title }}</h3>
-    <p>{{ song.artist }}</p>
+  <div 
+    *ngFor="let song of (playlist$ | async); let i = index"
+    class="track-row"
+    [class.active]="song.id === (currentSong$ | async)?.id"
+    [class.playing]="song.id === (currentSong$ | async)?.id && (isPlaying$ | async)"
+    (click)="onSongClick(song)">
+    
+    <div class="track-number">
+      <span class="number">{{ i + 1 }}</span>
+      <button class="play-btn">
+        <svg *ngIf="song.id !== (currentSong$ | async)?.id" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        <svg *ngIf="song.id === (currentSong$ | async)?.id && !(isPlaying$ | async)" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        <div *ngIf="song.id === (currentSong$ | async)?.id && (isPlaying$ | async)" class="playing-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+    </div>
+    
+    <div class="track-info">
+      <img [src]="song.imageUrl" alt="Album art">
+      <div>
+        <div class="track-name" [class.active-text]="song.id === (currentSong$ | async)?.id">
+          {{ song.title }}
+        </div>
+        <div class="track-artist">{{ song.artist }}</div>
+      </div>
+    </div>
+    
+    <div class="track-album">{{ song.album }}</div>
+    
+    <div class="track-duration">
+      <button class="btn-like">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </button>
+      <span class="duration">0:30</span>
+      <button class="btn-more">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="5" cy="12" r="1.5"/>
+          <circle cx="12" cy="12" r="1.5"/>
+          <circle cx="19" cy="12" r="1.5"/>
+        </svg>
+      </button>
+    </div>
   </div>
-  
-  <div class="album-art-placeholder" *ngIf="!(currentSong$ | async)">
-    <p>Selecciona una canción</p>
-  </div>
-  
 </div>

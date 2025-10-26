@@ -7,7 +7,7 @@ import { PlayerState } from '../../../../core/domain/models/player-state.model';
   selector: 'app-player-controls',
   templateUrl: './player-controls.component.html',
   styleUrls: ['./player-controls.component.scss'],
-  standalone: false // ← AÑADE ESTO
+  standalone: false
 })
 export class PlayerControlsComponent {
   
@@ -23,5 +23,11 @@ export class PlayerControlsComponent {
     } else {
       this.playerUseCases.resume();
     }
+  }
+
+  formatTime(seconds: number): string {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   }
 }
