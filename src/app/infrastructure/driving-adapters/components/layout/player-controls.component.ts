@@ -6,7 +6,8 @@ import { PlayerState } from '../../../../core/domain/models/player-state.model';
 @Component({
   selector: 'app-player-controls',
   templateUrl: './player-controls.component.html',
-  styleUrls: ['./player-controls.component.scss']
+  styleUrls: ['./player-controls.component.scss'],
+  standalone: false // ← AÑADE ESTO
 })
 export class PlayerControlsComponent {
   
