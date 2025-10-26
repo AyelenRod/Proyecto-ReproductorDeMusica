@@ -1,11 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  standalone: false,
-  styleUrl: './app.css'
+  styleUrl: './app.css',
+  standalone: false // ← Asegúrate que está en false
 })
 export class App {
-  protected readonly title = signal('mi-reproductor');
+  // Ya no necesitas el título si no lo usas
 }

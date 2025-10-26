@@ -8,21 +8,23 @@ import { SpotifyInterceptor } from './infrastructure/driven-adapters/spotify-api
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing-module';
-import { AppComponent } from './infrastructure/driving-adapters/app/app.component';
+import { App } from './app'; // ← Cambiado: importamos App, no AppComponent
 import { PlayerControlsComponent } from './infrastructure/driving-adapters/components/layout/player-controls.component';
 import { SidebarComponent } from './infrastructure/driving-adapters/components/layout/sidebar.component';
 import { PlaylistViewComponent } from './infrastructure/driving-adapters/components/pages/playlist-view.component';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
+    App, 
     PlaylistViewComponent,
     PlayerControlsComponent,
     SidebarComponent
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     HttpClientModule
   ],
@@ -31,6 +33,6 @@ import { PlaylistViewComponent } from './infrastructure/driving-adapters/compone
     { provide: IMusicRepository, useClass: SpotifyService },
     { provide: HTTP_INTERCEPTORS, useClass: SpotifyInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [App]
 })
 export class AppModule { }
