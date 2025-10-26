@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 })
 export class PlaylistViewComponent implements OnInit {
 
-  playlist$: Observable<Song[]>;
+  playlist$!: Observable<Song[]>;
   currentSong$: Observable<Song | null>;
   
   // ID de una playlist pública de Spotify (ej. "Today's Top Hits")
