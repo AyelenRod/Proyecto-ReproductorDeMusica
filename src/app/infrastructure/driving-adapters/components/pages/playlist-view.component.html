@@ -1,5 +1,4 @@
 <div class="playlist-view">
-  <!-- Columna Izquierda: Lista de canciones -->
   <div class="song-list-panel">
     <h2 class="playlist-title">MAP OF THE SOUL 7</h2>
     
@@ -15,62 +14,54 @@
         <button 
           *ngIf="song.id === (currentSong$ | async)?.id" 
           class="playing-indicator"
-          [class.playing]="(isPlaying$ | async)">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" *ngIf="!(isPlaying$ | async)"/>
-            <path d="M8 5v14l11-7z" *ngIf="(isPlaying$ | async)"/>
-          </svg>
+          [class.playing]="(isPlaying$ | async)"
+          (click)="onIndicatorClick($event)">
+          <span class="icon">{{ (isPlaying$ | async) ? '||' : '▶' }}</span>
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Columna Derecha: Portada del álbum y reproductor -->
   <div class="album-panel">
-    <div class="album-art-container" *ngIf="(currentSong$ | async) as song; else noSelection">
-      <div class="album-cover-wrapper">
-        <img [src]="song.imageUrl" alt="Album Cover" class="album-cover">
-        <div class="album-title-overlay">{{ song.album }}</div>
-      </div>
+    <ng-container *ngIf="(currentSong$ | async) as song; else noSelection">
+      <div class="album-art-container">
+        <div class="album-cover-wrapper">
+          <img [src]="song.imageUrl" alt="Album Cover" class="album-cover">
+          <div class="album-title-overlay">{{ song.album }}</div>
+        </div>
 
-      <div class="now-playing-info">
-        <h3 class="track-name">{{ song.title }}</h3>
-        <p class="artist-name">{{ song.artist }}</p>
-      </div>
+        <div class="now-playing-info">
+          <h3 class="track-name">{{ song.title }}</h3>
+          <p class="artist-name">{{ song.artist }}</p>
+        </div>
 
-      <div class="playback-controls">
-        <input 
-          type="range" 
-          class="progress-slider" 
-          min="0" 
-          max="100" 
-          [value]="(playerState$ | async)?.progress || 0">
-        
-        <div class="control-buttons">
-          <button class="btn-control btn-prev">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
-            </svg>
-          </button>
+        <div class="playback-controls">
+          <input 
+            type="range" 
+            class="progress-slider" 
+            min="0" 
+            max="100" 
+            [value]="(playerState$ | async)?.progress || 0">
+          
+          <div class="control-buttons">
+            <button class="btn-control btn-prev" title="Anterior">
+              <span class="icon">⏮</span>
+            </button>
 
-          <button 
-            class="btn-control btn-play-pause" 
-            (click)="togglePlayPause((isPlaying$ | async) || false)">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-              <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="1.5" fill="none"/>
-              <path *ngIf="!(isPlaying$ | async)" d="M9 8l7 4-7 4z"/>
-              <path *ngIf="(isPlaying$ | async)" d="M9 8h2v8H9zm4 0h2v8h-2z"/>
-            </svg>
-          </button>
+            <button 
+              class="btn-control btn-play-pause" 
+              (click)="onPlayPauseClick()"
+              [title]="(isPlaying$ | async) ? 'Pausar' : 'Reproducir'">
+              <span class="icon">{{ (isPlaying$ | async) ? '||' : '▶' }}</span>
+            </button>
 
-          <button class="btn-control btn-next">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M16 18h2V6h-2zm-11-6l8.5-6v12z"/>
-            </svg>
-          </button>
+            <button class="btn-control btn-next" title="Siguiente">
+              <span class="icon">⏭</span>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </ng-container>
 
     <ng-template #noSelection>
       <div class="no-selection">
@@ -81,72 +72,5 @@
         </div>
       </div>
     </ng-template>
-  </div>
-</div>
-
-<div class="tracklist">
-  <div class="tracklist-header">
-    <div class="track-number">#</div>
-    <div class="track-title">TÍTULO</div>
-    <div class="track-album">ÁLBUM</div>
-    <div class="track-duration">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-      </svg>
-    </div>
-  </div>
-
-  <div 
-    *ngFor="let song of (playlist$ | async); let i = index"
-    class="track-row"
-    [class.active]="song.id === (currentSong$ | async)?.id"
-    [class.playing]="song.id === (currentSong$ | async)?.id && (isPlaying$ | async)"
-    (click)="onSongClick(song)">
-    
-    <div class="track-number">
-      <span class="number">{{ i + 1 }}</span>
-      <button class="play-btn">
-        <svg *ngIf="song.id !== (currentSong$ | async)?.id" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M8 5v14l11-7z"/>
-        </svg>
-        <svg *ngIf="song.id === (currentSong$ | async)?.id && !(isPlaying$ | async)" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M8 5v14l11-7z"/>
-        </svg>
-        <div *ngIf="song.id === (currentSong$ | async)?.id && (isPlaying$ | async)" class="playing-icon">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </button>
-    </div>
-    
-    <div class="track-info">
-      <img [src]="song.imageUrl" alt="Album art">
-      <div>
-        <div class="track-name" [class.active-text]="song.id === (currentSong$ | async)?.id">
-          {{ song.title }}
-        </div>
-        <div class="track-artist">{{ song.artist }}</div>
-      </div>
-    </div>
-    
-    <div class="track-album">{{ song.album }}</div>
-    
-    <div class="track-duration">
-      <button class="btn-like">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-        </svg>
-      </button>
-      <span class="duration">0:30</span>
-      <button class="btn-more">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-          <circle cx="5" cy="12" r="1.5"/>
-          <circle cx="12" cy="12" r="1.5"/>
-          <circle cx="19" cy="12" r="1.5"/>
-        </svg>
-      </button>
-    </div>
   </div>
 </div>

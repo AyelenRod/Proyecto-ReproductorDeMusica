@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { IPlayerUseCases } from  '../../../../core/domain/ports/in/i-player.use-cases';
 import { Song } from '../../../../core/domain/models/song.model';
 import { PlayerState } from '../../../../core/domain/models/player-state.model';
@@ -34,11 +34,24 @@ export class PlaylistViewComponent implements OnInit {
     this.playerUseCases.playSong(song);
   }
 
-  togglePlayPause(isPlaying: boolean): void {
-    if (isPlaying) {
-      this.playerUseCases.pause();
-    } else {
-      this.playerUseCases.resume();
-    }
+  onIndicatorClick(event: Event): void {
+    event.stopPropagation();
+    this.isPlaying$.pipe(take(1)).subscribe(isPlaying => {
+      if (isPlaying) {
+        this.playerUseCases.pause();
+      } else {
+        this.playerUseCases.resume();
+      }
+    });
+  }
+
+  onPlayPauseClick(): void {
+    this.isPlaying$.pipe(take(1)).subscribe(isPlaying => {
+      if (isPlaying) {
+        this.playerUseCases.pause();
+      } else {
+        this.playerUseCases.resume();
+      }
+    });
   }
 }
