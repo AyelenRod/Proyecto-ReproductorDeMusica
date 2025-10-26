@@ -5,27 +5,24 @@ import { IPlayerUseCases } from '../domain/ports/in/i-player.use-cases';
 import { IMusicRepository } from '../domain/ports/out/i-music.repository';
 import { Song } from '../domain/models/song.model';
 import { PlayerState } from '../domain/models/player-state.model';
-
-// Servicios de Infraestructura que necesita para funcionar
-// (Los inyectamos usando DI de Angular, pero son interfaces/abstracciones)
 import { PlayerStateService } from '../../infrastructure/services/player-state.service';
 import { AudioService } from '../../infrastructure/driven-adapters/local-audio/audio.service';
 
 @Injectable({
   providedIn: 'root',
 })
-// Esta clase implementa los Casos de Uso (Puerto de Entrada)
 export class PlayerService implements IPlayerUseCases {
 
-  // Recibe el Puerto de Salida (IMusicRepository) y los servicios de infra
   constructor(
     private musicRepository: IMusicRepository,
     private state: PlayerStateService,
     private audio: AudioService
   ) {
-    // Conecta el progreso del audio al estado
     this.audio.progress$.subscribe(progress => this.state.setProgress(progress));
-    this.audio.ended$.subscribe(() => this.state.pause());
+    this.audio.ended$.subscribe(() => {
+      this.state.pause();
+      this.playNext();
+    });
   }
 
   getState(): Observable<PlayerState> {
@@ -34,7 +31,7 @@ export class PlayerService implements IPlayerUseCases {
 
   loadSongs(playlistId: string): Observable<Song[]> {
     return this.musicRepository.getPlaylistTracks(playlistId).pipe(
-      tap(songs => this.state.setPlaylist(songs)) // Guarda la playlist en el estado
+      tap(songs => this.state.setPlaylist(songs))
     );
   }
 
@@ -45,7 +42,7 @@ export class PlayerService implements IPlayerUseCases {
       this.state.play(song);
     } else {
       console.warn('Esta canción no tiene preview y no se puede reproducir.');
-      this.selectSong(song); // Al menos la seleccionamos
+      this.selectSong(song);
     }
   }
 
@@ -61,5 +58,19 @@ export class PlayerService implements IPlayerUseCases {
 
   selectSong(song: Song): void {
     this.state.setCurrentSong(song);
+  }
+
+  playNext(): void {
+    const nextSong = this.state.getNextSong();
+    if (nextSong) {
+      this.playSong(nextSong);
+    }
+  }
+
+  playPrevious(): void {
+    const prevSong = this.state.getPreviousSong();
+    if (prevSong) {
+      this.playSong(prevSong);
+    }
   }
 }

@@ -7,6 +7,8 @@ export abstract class IPlayerUseCases {
   abstract playSong(song: Song): void;
   abstract pause(): void;
   abstract resume(): void;
-  abstract selectSong(song: Song): void; // Solo la selecciona, no la reproduce
+  abstract selectSong(song: Song): void;
+  abstract playNext(): void;
+  abstract playPrevious(): void;
   abstract getState(): Observable<PlayerState>;
 }

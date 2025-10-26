@@ -54,4 +54,12 @@ export class PlaylistViewComponent implements OnInit {
       }
     });
   }
+
+  onNextClick(): void {
+    this.playerUseCases.playNext();
+  }
+
+  onPreviousClick(): void {
+    this.playerUseCases.playPrevious();
+  }
 }

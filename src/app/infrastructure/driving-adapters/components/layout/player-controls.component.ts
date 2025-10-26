@@ -25,6 +25,14 @@ export class PlayerControlsComponent {
     }
   }
 
+  playNext(): void {
+    this.playerUseCases.playNext();
+  }
+
+  playPrevious(): void {
+    this.playerUseCases.playPrevious();
+  }
+
   formatTime(seconds: number): string {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);

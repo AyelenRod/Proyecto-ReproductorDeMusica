@@ -44,7 +44,10 @@
             [value]="(playerState$ | async)?.progress || 0">
           
           <div class="control-buttons">
-            <button class="btn-control btn-prev" title="Anterior">
+            <button 
+              class="btn-control btn-prev" 
+              title="Anterior"
+              (click)="onPreviousClick()">
               <span class="icon">⏮</span>
             </button>
 
@@ -55,7 +58,10 @@
               <span class="icon">{{ (isPlaying$ | async) ? '||' : '▶' }}</span>
             </button>
 
-            <button class="btn-control btn-next" title="Siguiente">
+            <button 
+              class="btn-control btn-next" 
+              title="Siguiente"
+              (click)="onNextClick()">
               <span class="icon">⏭</span>
             </button>
           </div>
