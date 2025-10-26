@@ -1,0 +1,28 @@
+<div class="playlist-container">
+
+  <div class="song-list">
+    <h3>MAP OF THE SOUL 7</h3> <ul>
+      <li 
+        *ngFor="let song of (playlist$ | async)"
+        (click)="onSongClick(song)"
+        [class.active]="song.id === (currentSong$ | async)?.id">
+        
+        {{ song.title }}
+        
+        <span *ngIf="song.id === (currentSong$ | async)?.id">
+           🔊 </span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="album-art" *ngIf="(currentSong$ | async) as song">
+    <img [src]="song.imageUrl" alt="Album Art">
+    <h3>{{ song.title }}</h3>
+    <p>{{ song.artist }}</p>
+  </div>
+  
+  <div class="album-art-placeholder" *ngIf="!(currentSong$ | async)">
+    <p>Selecciona una canción</p>
+  </div>
+  
+</div>
