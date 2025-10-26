@@ -1,37 +1,87 @@
-<div class="playlist-header">
-  <div class="playlist-cover">
-    <img [src]="playlistCover" alt="Playlist Cover">
-  </div>
-  <div class="playlist-info">
-    <span class="playlist-type">PLAYLIST</span>
-    <h1>MAP OF THE SOUL 7</h1>
-    <p class="playlist-description">Las mejores canciones de BTS</p>
-    <div class="playlist-meta">
-      <span>BTS</span>
-      <span class="dot">•</span>
-      <span>{{ (playlist$ | async)?.length }} canciones</span>
+<div class="playlist-view">
+  <!-- Columna Izquierda: Lista de canciones -->
+  <div class="song-list-panel">
+    <h2 class="playlist-title">MAP OF THE SOUL 7</h2>
+    
+    <div class="song-list">
+      <div 
+        *ngFor="let song of (playlist$ | async); let i = index"
+        class="song-item"
+        [class.active]="song.id === (currentSong$ | async)?.id"
+        (click)="onSongClick(song)">
+        
+        <span class="song-name">{{ song.title }}</span>
+        
+        <button 
+          *ngIf="song.id === (currentSong$ | async)?.id" 
+          class="playing-indicator"
+          [class.playing]="(isPlaying$ | async)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" *ngIf="!(isPlaying$ | async)"/>
+            <path d="M8 5v14l11-7z" *ngIf="(isPlaying$ | async)"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="playlist-actions">
-  <button class="btn-play-all">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M8 5v14l11-7z"/>
-    </svg>
-  </button>
-  <button class="btn-icon">
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-    </svg>
-  </button>
-  <button class="btn-icon">
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-      <circle cx="5" cy="12" r="1.5"/>
-      <circle cx="12" cy="12" r="1.5"/>
-      <circle cx="19" cy="12" r="1.5"/>
-    </svg>
-  </button>
+  <!-- Columna Derecha: Portada del álbum y reproductor -->
+  <div class="album-panel">
+    <div class="album-art-container" *ngIf="(currentSong$ | async) as song; else noSelection">
+      <div class="album-cover-wrapper">
+        <img [src]="song.imageUrl" alt="Album Cover" class="album-cover">
+        <div class="album-title-overlay">{{ song.album }}</div>
+      </div>
+
+      <div class="now-playing-info">
+        <h3 class="track-name">{{ song.title }}</h3>
+        <p class="artist-name">{{ song.artist }}</p>
+      </div>
+
+      <div class="playback-controls">
+        <input 
+          type="range" 
+          class="progress-slider" 
+          min="0" 
+          max="100" 
+          [value]="(playerState$ | async)?.progress || 0">
+        
+        <div class="control-buttons">
+          <button class="btn-control btn-prev">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+            </svg>
+          </button>
+
+          <button 
+            class="btn-control btn-play-pause" 
+            (click)="togglePlayPause((isPlaying$ | async) || false)">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+              <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              <path *ngIf="!(isPlaying$ | async)" d="M9 8l7 4-7 4z"/>
+              <path *ngIf="(isPlaying$ | async)" d="M9 8h2v8H9zm4 0h2v8h-2z"/>
+            </svg>
+          </button>
+
+          <button class="btn-control btn-next">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 18h2V6h-2zm-11-6l8.5-6v12z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noSelection>
+      <div class="no-selection">
+        <p>ESTAS ESCUCHANDO</p>
+        <div class="empty-state">
+          <div class="empty-icon">♪</div>
+          <p>Selecciona una canción para reproducir</p>
+        </div>
+      </div>
+    </ng-template>
+  </div>
 </div>
 
 <div class="tracklist">

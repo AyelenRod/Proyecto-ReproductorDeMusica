@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IPlayerUseCases } from  '../../../../core/domain/ports/in/i-player.use-cases';
 import { Song } from '../../../../core/domain/models/song.model';
+import { PlayerState } from '../../../../core/domain/models/player-state.model';
 
 @Component({
   selector: 'app-playlist-view',
@@ -15,14 +16,14 @@ export class PlaylistViewComponent implements OnInit {
   playlist$!: Observable<Song[]>;
   currentSong$: Observable<Song | null>;
   isPlaying$: Observable<boolean>;
-  
-  playlistCover = 'https://i.scdn.co/image/ab67616d0000b273c5d366537cc9414614c7c492';
+  playerState$: Observable<PlayerState>;
   
   private playlistId = '37i9dQZF1DXcBWIGoYEmIw';
 
   constructor(private playerUseCases: IPlayerUseCases) {
-    this.currentSong$ = this.playerUseCases.getState().pipe(map(s => s.currentSong));
-    this.isPlaying$ = this.playerUseCases.getState().pipe(map(s => s.isPlaying));
+    this.playerState$ = this.playerUseCases.getState();
+    this.currentSong$ = this.playerState$.pipe(map(s => s.currentSong));
+    this.isPlaying$ = this.playerState$.pipe(map(s => s.isPlaying));
   }
 
   ngOnInit(): void {
@@ -31,5 +32,13 @@ export class PlaylistViewComponent implements OnInit {
 
   onSongClick(song: Song): void {
     this.playerUseCases.playSong(song);
+  }
+
+  togglePlayPause(isPlaying: boolean): void {
+    if (isPlaying) {
+      this.playerUseCases.pause();
+    } else {
+      this.playerUseCases.resume();
+    }
   }
 }
