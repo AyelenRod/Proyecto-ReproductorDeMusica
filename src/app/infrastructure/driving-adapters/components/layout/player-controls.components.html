@@ -1,0 +1,26 @@
+<div class="controls-container" *ngIf="(playerState$ | async) as state">
+  
+  <div class="song-info">
+    <ng-container *ngIf="state.currentSong as song">
+      <img [src]="song.imageUrl" alt="Album">
+      <div>
+        <span class="title">{{ song.title }}</span>
+        <span class="artist">{{ song.artist }}</span>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="player-buttons">
+    <button class="control-btn">⏮</button> <button class="control-btn play" (click)="togglePlayPause(state.isPlaying)">
+      <span *ngIf="!state.isPlaying">▶</span>
+      <span *ngIf="state.isPlaying">⏸</span>
+    </button>
+    
+    <button class="control-btn">⏭</button> <div class="progress-bar-container">
+      <div class="progress-bar" [style.width.%]="state.progress"></div>
+    </div>
+  </div>
+
+  <div class="volume-controls">
+    </div>
+</div>
