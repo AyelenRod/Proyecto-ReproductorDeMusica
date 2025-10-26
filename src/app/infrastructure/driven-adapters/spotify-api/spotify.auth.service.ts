@@ -2,21 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment'; // Guarda tus keys aquí
+import { environment } from '../../../../environments/environment.development';
+
 
 @Injectable({ providedIn: 'root' })
 export class SpotifyAuthService {
   private tokenUrl = 'https://accounts.spotify.com/api/token';
   private currentToken: string | null = null;
   
-  // Pon esto en environment.ts
-  // export const environment = {
-  //   production: false,
-  //   spotify: {
-  //     clientId: 'TU_CLIENT_ID',
-  //     clientSecret: 'TU_CLIENT_SECRET'
-  //   }
-  // };
 
   constructor(private http: HttpClient) {}
 
