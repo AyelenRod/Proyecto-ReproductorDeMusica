@@ -1,4 +1,4 @@
-import { Song } from '../../../core/domain/models/song.model';
+import { Song } from '../../../../core/domain/models/song.model';
 
 // Esta es la implementación del Patrón Mapper
 export class TrackMapper {

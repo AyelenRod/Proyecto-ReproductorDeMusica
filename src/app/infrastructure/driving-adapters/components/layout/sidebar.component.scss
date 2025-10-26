@@ -1,0 +1,61 @@
+/* El estilo general ya lo dimos en app.component.scss (fondo negro, etc.) */
+/* Aquí estilizamos el contenido *dentro* del sidebar */
+
+.menu-header {
+  font-size: 24px;
+  color: #b3b3b3;
+  padding-bottom: 20px;
+}
+
+.main-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 30px 0;
+}
+
+.main-nav li {
+  margin-bottom: 15px;
+}
+
+.main-nav a {
+  color: #b3b3b3;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: color 0.2s;
+
+  &:hover,
+  &.active {
+    color: #ffffff; /* Se pone blanco al pasar el mouse o si está activo */
+  }
+}
+
+.playlist-nav {
+  border-top: 1px solid #282828;
+  padding-top: 20px;
+  
+  p {
+    font-size: 0.7rem;
+    color: #b3b3b3;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  li a {
+    color: #b3b3b3;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: block;
+    padding: 8px 0;
+    
+    &:hover {
+      color: #ffffff;
+    }
+  }
+}
