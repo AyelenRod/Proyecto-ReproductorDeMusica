@@ -19,11 +19,13 @@ import { SpotifyInterceptor } from './infrastructure/driven-adapters/spotify-api
 // Components
 import { App } from './app';
 import { PlaylistViewComponent } from './infrastructure/driving-adapters/components/pages/playlist-view.component';
+import { SearchViewComponent } from './infrastructure/driving-adapters/components/pages/search-view.component';
 
 @NgModule({
   declarations: [
     App,
-    PlaylistViewComponent
+    PlaylistViewComponent,
+    SearchViewComponent  // ← AGREGADO: El componente de búsqueda
   ],
   imports: [
     BrowserModule,

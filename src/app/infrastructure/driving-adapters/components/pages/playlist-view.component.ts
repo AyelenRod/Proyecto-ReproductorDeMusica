@@ -13,9 +13,6 @@ import { PlayerState } from '../../../../core/domain/models/player-state.model';
   standalone: false
 })
 export class PlaylistViewComponent implements OnInit {
-navigateToSearch() {
-throw new Error('Method not implemented.');
-}
 
   playlist$!: Observable<Song[]>;
   filteredSongs$!: Observable<Song[]>;
@@ -29,7 +26,10 @@ throw new Error('Method not implemented.');
   private searchQuery$ = new BehaviorSubject<string>('');
   private playlistId = '67iNkhe5Dfzxuo5mDDgmya';
 
-  constructor(private playerUseCases: IPlayerUseCases) {
+  constructor(
+    private playerUseCases: IPlayerUseCases,
+    private router: Router  // ← AGREGADO: Inyección del Router
+  ) {
     this.playerState$ = this.playerUseCases.getState();
     this.currentSong$ = this.playerState$.pipe(map(s => s.currentSong));
     this.isPlaying$ = this.playerState$.pipe(map(s => s.isPlaying));
@@ -64,6 +64,13 @@ throw new Error('Method not implemented.');
       error: (error) => {
         console.error('❌ Error al cargar:', error);
       }
+    });
+  }
+
+  // ← AGREGADO: Función para navegar a la búsqueda
+  navigateToSearch(): void {
+    this.router.navigate(['/search'], { 
+      queryParams: { q: this.searchQuery } 
     });
   }
 

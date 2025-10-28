@@ -4,9 +4,8 @@ import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
 import { IMusicRepository } from '../../../../core/domain/ports/out/i-music.repository';
 import { IPlayerUseCases } from '../../../../core/domain/ports/in/i-player.use-cases';
-import { SearchResult, SearchTrack, SearchAlbum, SearchArtist } from '../../../../core/domain/models/search.model';
+import { SearchResult, SearchTrack } from '../../../../core/domain/models/search.model';
 import { Song } from '../../../../core/domain/models/song.model';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-search-view',
