@@ -25,7 +25,7 @@ import { SearchViewComponent } from './infrastructure/driving-adapters/component
   declarations: [
     App,
     PlaylistViewComponent,
-    SearchViewComponent  // ← AGREGADO: El componente de búsqueda
+    SearchViewComponent
   ],
   imports: [
     BrowserModule,
