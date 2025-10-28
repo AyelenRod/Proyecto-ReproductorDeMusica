@@ -20,6 +20,10 @@ export class PlaylistViewComponent implements OnInit {
   
   // Playlist pública de Spotify (Top 50 Global)
   private playlistId = '67iNkhe5Dfzxuo5mDDgmya';
+filteredSongs$: Observable<unknown>|Subscribable<unknown>|PromiseLike<unknown>;
+searchQuery: any;
+playlistTitle: any;
+onSearchInput: any;
 
   constructor(private playerUseCases: IPlayerUseCases) {
     this.playerState$ = this.playerUseCases.getState();
@@ -33,11 +37,11 @@ export class PlaylistViewComponent implements OnInit {
     
     this.playlist$.subscribe({
       next: (songs) => {
-        console.log('✅ Canciones cargadas:', songs.length);
+        console.log('Canciones cargadas:', songs.length);
         songs.forEach((song, i) => console.log(`${i + 1}. ${song.title} - ${song.artist}`));
       },
       error: (error) => {
-        console.error('❌ Error al cargar:', error);
+        console.error('Error al cargar:', error);
       }
     });
   }

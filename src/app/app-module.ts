@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; // IMPORTANTE: Para usar ngModel
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // Routing
@@ -17,22 +18,17 @@ import { SpotifyInterceptor } from './infrastructure/driven-adapters/spotify-api
 
 // Components
 import { App } from './app';
-import { PlayerControlsComponent } from './infrastructure/driving-adapters/components/layout/player-controls.component';
-import { SidebarComponent } from './infrastructure/driving-adapters/components/layout/sidebar.component';
 import { PlaylistViewComponent } from './infrastructure/driving-adapters/components/pages/playlist-view.component';
-import { SearchComponent } from './infrastructure/driving-adapters/components/pages/search.component';
 
 @NgModule({
   declarations: [
     App,
-    PlaylistViewComponent,
-    SearchComponent,
-    PlayerControlsComponent,
-    SidebarComponent
+    PlaylistViewComponent
   ],
   imports: [
     BrowserModule,
     CommonModule,
+    FormsModule,
     AppRoutingModule,
     HttpClientModule
   ],
