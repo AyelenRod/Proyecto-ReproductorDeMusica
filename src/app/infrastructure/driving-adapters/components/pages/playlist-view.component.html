@@ -5,9 +5,10 @@
       <input 
         type="text" 
         class="search-input" 
-        placeholder="BUSCAR"
+        placeholder="🔍 BUSCAR MÚSICA..."
         [(ngModel)]="searchQuery"
-        (input)="onSearchInput()">
+        (keyup.enter)="navigateToSearch()"
+        (click)="navigateToSearch()">
     </div>
 
     <h2 class="playlist-title">{{ playlistTitle }}</h2>
@@ -31,7 +32,7 @@
       </div>
     </div>
 
-    <div *ngIf="$any(filteredSongs$ | async)?.length === 0 && searchQuery" class="no-results">
+    <div *ngIf="(filteredSongs$ | async)?.length === 0 && searchQuery" class="no-results">
       <p>No se encontraron canciones</p>
     </div>
   </div>

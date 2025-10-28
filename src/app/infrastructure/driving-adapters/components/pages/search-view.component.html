@@ -1,0 +1,124 @@
+<div class="search-view">
+  <!-- Header con barra de búsqueda -->
+  <div class="search-header">
+    <button class="btn-back" (click)="goBack()" title="Volver">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+    </button>
+
+    <div class="search-bar-wrapper">
+      <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <input 
+        type="text" 
+        class="search-input" 
+        placeholder="Que quieres escuchar?"
+        [(ngModel)]="searchQuery"
+        (input)="onSearchInput()"
+        (keyup.enter)="onSearchInput()">
+      <button 
+        *ngIf="searchQuery" 
+        class="btn-clear" 
+        (click)="clearSearch()"
+        title="Limpiar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Resultados de búsqueda -->
+  <div class="search-results" *ngIf="searchResults$ | async as results">
+    
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="spinner"></div>
+      <p>Buscando...</p>
+    </div>
+
+    <!-- Sin resultados -->
+    <div *ngIf="!isLoading && hasSearched && (!results.tracks.length && !results.albums.length && !results.artists.length)" class="no-results">
+      <div class="no-results-icon">🔍</div>
+      <h2>No se encontraron resultados para "{{ searchQuery }}"</h2>
+      <p>Intenta usar otras palabras clave</p>
+    </div>
+
+    <!-- Canciones -->
+    <div *ngIf="!isLoading && results.tracks.length > 0" class="results-section">
+      <h2 class="section-title">Canciones</h2>
+      <div class="tracks-grid">
+        <div 
+          *ngFor="let track of results.tracks" 
+          class="track-card"
+          (click)="playTrack(track)">
+          <img [src]="track.imageUrl" [alt]="track.name" class="track-image">
+          <div class="track-info">
+            <h3 class="track-name">{{ track.name }}</h3>
+            <p class="track-artist">{{ track.artists }}</p>
+            <p class="track-album">{{ track.album }}</p>
+          </div>
+          <button class="btn-play-track">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Artistas -->
+    <div *ngIf="!isLoading && results.artists.length > 0" class="results-section">
+      <h2 class="section-title">Artistas</h2>
+      <div class="artists-grid">
+        <div 
+          *ngFor="let artist of results.artists" 
+          class="artist-card">
+          <img [src]="artist.imageUrl" [alt]="artist.name" class="artist-image">
+          <div class="artist-info">
+            <h3 class="artist-name">{{ artist.name }}</h3>
+            <p class="artist-meta">
+              <span class="artist-type">Artista</span>
+              <span *ngIf="artist.genres.length > 0" class="artist-genres">
+                {{ artist.genres.slice(0, 2).join(', ') }}
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Álbumes -->
+    <div *ngIf="!isLoading && results.albums.length > 0" class="results-section">
+      <h2 class="section-title">Álbumes</h2>
+      <div class="albums-grid">
+        <div 
+          *ngFor="let album of results.albums" 
+          class="album-card"
+          (click)="loadAlbum(album.id)">
+          <img [src]="album.imageUrl" [alt]="album.name" class="album-image">
+          <div class="album-info">
+            <h3 class="album-name">{{ album.name }}</h3>
+            <p class="album-artist">{{ album.artist }}</p>
+            <p class="album-meta">
+              <span>{{ album.releaseDate.split('-')[0] }}</span>
+              <span class="separator">•</span>
+              <span>{{ album.totalTracks }} canciones</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Estado inicial (sin búsqueda) -->
+  <div *ngIf="!hasSearched && !isLoading" class="empty-state">
+    <div class="empty-icon">🎵</div>
+    <h2>Busca tu música favorita</h2>
+    <p>Encuentra canciones, artistas y álbumes</p>
+  </div>
+</div>

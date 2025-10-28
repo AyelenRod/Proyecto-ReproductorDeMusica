@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { IPlayerUseCases } from '../../../../core/domain/ports/in/i-player.use-cases';
@@ -12,6 +13,9 @@ import { PlayerState } from '../../../../core/domain/models/player-state.model';
   standalone: false
 })
 export class PlaylistViewComponent implements OnInit {
+navigateToSearch() {
+throw new Error('Method not implemented.');
+}
 
   playlist$!: Observable<Song[]>;
   filteredSongs$!: Observable<Song[]>;

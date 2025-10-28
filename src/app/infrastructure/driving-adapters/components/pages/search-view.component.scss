@@ -10,11 +10,9 @@
 // ========== COLUMNA IZQUIERDA: Lista de canciones ==========
 .song-list-panel {
   background: rgba(173, 216, 230, 0.9);
-  padding: 0;
+  padding: 30px 20px;
   overflow-y: auto;
   border-right: 3px solid rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -34,43 +32,80 @@
     }
   }
 
+  // ========== BARRA DE BÚSQUEDA MEJORADA ==========
   .search-bar-container {
-    padding: 20px;
-    background: rgba(173, 216, 230, 0.95);
-    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    position: relative;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      color: rgba(255, 255, 255, 0.8);
+      pointer-events: none;
+      z-index: 1;
+    }
 
     .search-input {
       width: 100%;
-      padding: 14px 24px;
-      font-size: 0.95rem;
-      font-weight: 500;
-      border: none;
+      padding: 14px 50px 14px 48px;
+      background: rgba(66, 153, 225, 0.95);
+      border: 2px solid rgba(255, 255, 255, 0.3);
       border-radius: 30px;
-      background: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+      font-size: 0.9rem;
+      font-weight: 600;
       color: #fff;
       outline: none;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
-      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 
       &::placeholder {
-        color: rgba(255, 255, 255, 0.85);
-        font-weight: 600;
-        letter-spacing: 1.5px;
-      }
-
-      &:hover {
-        box-shadow: 0 6px 16px rgba(66, 153, 225, 0.5);
-        transform: translateY(-2px);
+        color: rgba(255, 255, 255, 0.7);
+        letter-spacing: 1px;
       }
 
       &:focus {
-        background: linear-gradient(135deg, #3182ce 0%, #5a67d8 100%);
-        box-shadow: 0 8px 20px rgba(66, 153, 225, 0.6);
+        background: rgba(66, 153, 225, 1);
+        border-color: rgba(255, 255, 255, 0.6);
+        box-shadow: 0 6px 25px rgba(66, 153, 225, 0.6);
         transform: translateY(-2px);
+      }
+
+      &:hover {
+        border-color: rgba(255, 255, 255, 0.5);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+      }
+    }
+
+    .btn-search-go {
+      position: absolute;
+      right: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #4299e1;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+      &:hover {
+        background: #fff;
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+
+      svg {
+        display: block;
       }
     }
   }
@@ -80,22 +115,16 @@
     font-weight: 800;
     text-transform: uppercase;
     color: #000;
-    margin: 0;
-    padding: 20px 20px 15px 20px;
+    margin: 0 0 25px 0;
+    padding-bottom: 15px;
     border-bottom: 3px solid rgba(0, 0, 0, 0.2);
     letter-spacing: 1px;
-    background: rgba(173, 216, 230, 0.95);
-    position: sticky;
-    top: 76px;
-    z-index: 9;
   }
 
   .song-list {
     display: flex;
     flex-direction: column;
     gap: 2px;
-    padding: 10px 20px 20px 20px;
-    flex: 1;
   }
 
   .song-item {
@@ -109,7 +138,6 @@
     transition: all 0.2s ease;
     font-weight: 600;
     color: #000;
-    border-radius: 4px;
 
     &:hover {
       background: rgba(255, 255, 255, 0.6);
@@ -142,13 +170,12 @@
       color: #2d3748;
       margin-left: 10px;
       transition: transform 0.2s;
-      font-size: 1.2rem;
 
       &:hover {
         transform: scale(1.2);
       }
 
-      &.playing .icon {
+      &.playing svg {
         animation: pulse 1s ease-in-out infinite;
       }
     }
@@ -156,13 +183,9 @@
 
   .no-results {
     text-align: center;
-    padding: 40px 20px;
-    color: rgba(0, 0, 0, 0.6);
+    padding: 30px 20px;
+    color: #4a5568;
     font-weight: 600;
-
-    p {
-      font-size: 1rem;
-    }
   }
 }
 
@@ -309,7 +332,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 2rem;
 
         &:hover {
           color: #2d3748;
@@ -322,7 +344,6 @@
 
         &.btn-play-pause {
           color: #4299e1;
-          font-size: 2.5rem;
 
           &:hover {
             color: #3182ce;
