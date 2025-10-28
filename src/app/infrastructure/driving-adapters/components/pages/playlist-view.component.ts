@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { IPlayerUseCases } from  '../../../../core/domain/ports/in/i-player.use-cases';
+import { IPlayerUseCases } from '../../../../core/domain/ports/in/i-player.use-cases';
 import { Song } from '../../../../core/domain/models/song.model';
 import { PlayerState } from '../../../../core/domain/models/player-state.model';
 
@@ -14,16 +14,16 @@ import { PlayerState } from '../../../../core/domain/models/player-state.model';
 export class PlaylistViewComponent implements OnInit {
 
   playlist$!: Observable<Song[]>;
+  filteredSongs$!: Observable<Song[]>;
   currentSong$: Observable<Song | null>;
   isPlaying$: Observable<boolean>;
   playerState$: Observable<PlayerState>;
   
-  // Playlist pública de Spotify (Top 50 Global)
+  searchQuery: string = '';
+  playlistTitle: string = 'MAP OF THE SOUL 7';
+  
+  private searchQuery$ = new BehaviorSubject<string>('');
   private playlistId = '67iNkhe5Dfzxuo5mDDgmya';
-filteredSongs$: Observable<unknown>|Subscribable<unknown>|PromiseLike<unknown>;
-searchQuery: any;
-playlistTitle: any;
-onSearchInput: any;
 
   constructor(private playerUseCases: IPlayerUseCases) {
     this.playerState$ = this.playerUseCases.getState();
@@ -35,15 +35,36 @@ onSearchInput: any;
     console.log('🎵 Cargando playlist ID:', this.playlistId);
     this.playlist$ = this.playerUseCases.loadSongs(this.playlistId);
     
+    this.filteredSongs$ = combineLatest([
+      this.playlist$,
+      this.searchQuery$
+    ]).pipe(
+      map(([songs, query]) => {
+        if (!query || query.trim() === '') {
+          return songs;
+        }
+        
+        const lowerQuery = query.toLowerCase().trim();
+        return songs.filter(song => 
+          song.title.toLowerCase().includes(lowerQuery) ||
+          song.artist.toLowerCase().includes(lowerQuery) ||
+          song.album.toLowerCase().includes(lowerQuery)
+        );
+      })
+    );
+    
     this.playlist$.subscribe({
       next: (songs) => {
-        console.log('Canciones cargadas:', songs.length);
-        songs.forEach((song, i) => console.log(`${i + 1}. ${song.title} - ${song.artist}`));
+        console.log('✅ Canciones cargadas:', songs.length);
       },
       error: (error) => {
-        console.error('Error al cargar:', error);
+        console.error('❌ Error al cargar:', error);
       }
     });
+  }
+
+  onSearchInput(): void {
+    this.searchQuery$.next(this.searchQuery);
   }
 
   onSongClick(song: Song): void {
