@@ -36,7 +36,7 @@ export class PlaylistViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('🎵 Cargando playlist ID:', this.playlistId);
+    console.log('Cargando playlist ID:', this.playlistId);
     this.playlist$ = this.playerUseCases.loadSongs(this.playlistId);
     
     this.filteredSongs$ = combineLatest([
@@ -59,15 +59,15 @@ export class PlaylistViewComponent implements OnInit {
     
     this.playlist$.subscribe({
       next: (songs) => {
-        console.log('✅ Canciones cargadas:', songs.length);
+        console.log('Canciones cargadas:', songs.length);
       },
       error: (error) => {
-        console.error('❌ Error al cargar:', error);
+        console.error('Error al cargar:', error);
       }
     });
   }
 
-  // ← AGREGADO: Función para navegar a la búsqueda
+  // ← Función para navegar a la búsqueda
   navigateToSearch(): void {
     this.router.navigate(['/search'], { 
       queryParams: { q: this.searchQuery } 
