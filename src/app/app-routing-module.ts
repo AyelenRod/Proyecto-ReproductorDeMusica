@@ -5,7 +5,7 @@ import { SearchViewComponent } from './infrastructure/driving-adapters/component
 
 const routes: Routes = [
   { path: '', component: PlaylistViewComponent },
-  { path: 'search', component: SearchViewComponent }  // ← AGREGADO: Ruta de búsqueda
+  { path: 'search', component: SearchViewComponent }
 ];
 
 @NgModule({
