@@ -2,15 +2,16 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, catchError, takeUntil } from 'rxjs/operators';
-import { IMusicRepository } from '../../../../core/domain/ports/out/i-music.repository';
+import { ISearchUseCases } from '../../../../core/domain/ports/in/i-search.use-cases';
 import { IPlayerUseCases } from '../../../../core/domain/ports/in/i-player.use-cases';
+import { IMusicRepository } from '../../../../core/domain/ports/out/i-music.repository';
 import { SearchResult, SearchTrack } from '../../../../core/domain/models/search.model';
 import { Song } from '../../../../core/domain/models/song.model';
 
 @Component({
   selector: 'app-search-view',
   templateUrl: './search-view.component.html',
-  styleUrls: ['./search-view.component.css'], 
+  styleUrls: ['./search-view.component.css'],
   standalone: false
 })
 export class SearchViewComponent implements OnInit, OnDestroy {
@@ -19,17 +20,18 @@ export class SearchViewComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   hasSearched: boolean = false;
   
+  // Autocompletado
   showSuggestions: boolean = false;
   suggestions: string[] = [];
-  private searchHistory: string[] = []; 
   private debounceTimer: any;
   private destroy$ = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private musicRepository: IMusicRepository,
-    private playerUseCases: IPlayerUseCases
+    private searchUseCases: ISearchUseCases,
+    private playerUseCases: IPlayerUseCases,
+    private musicRepository: IMusicRepository
   ) {}
 
   ngOnInit(): void {
@@ -86,10 +88,11 @@ export class SearchViewComponent implements OnInit, OnDestroy {
     }
 
     const query = this.searchQuery.toLowerCase();
+    const history = this.searchUseCases.getSearchHistory();
     
-    this.suggestions = this.searchHistory
+    this.suggestions = history
       .filter(item => item.toLowerCase().includes(query))
-      .slice(0, 5); 
+      .slice(0, 5);
 
     if (this.suggestions.length === 0 && this.searchQuery.trim().length > 2) {
       this.suggestions = [this.searchQuery];
@@ -108,17 +111,6 @@ export class SearchViewComponent implements OnInit, OnDestroy {
     }, 200);
   }
 
-  private saveToHistory(query: string): void {
-    if (!query || query.trim().length === 0) return;
-
-    this.searchHistory = this.searchHistory.filter(item => 
-      item.toLowerCase() !== query.toLowerCase()
-    );
-
-    this.searchHistory.unshift(query);
-    this.searchHistory = this.searchHistory.slice(0, 10);
-  }
-
   performSearch(query: string): void {
     if (!query || query.trim().length === 0) {
       this.searchResults$ = of(null);
@@ -126,12 +118,10 @@ export class SearchViewComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.saveToHistory(query);
-
     this.isLoading = true;
     this.hasSearched = true;
     
-    this.searchResults$ = this.musicRepository.search(query).pipe(
+    this.searchResults$ = this.searchUseCases.search(query).pipe(
       debounceTime(300),
       distinctUntilChanged(),
       switchMap(results => {
