@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { IPlayerUseCases } from '../domain/ports/in/i-player.use-cases';
-import { IMusicRepository } from '../domain/ports/out/i-music.repository';
-import { Song } from '../domain/models/song.model';
-import { PlayerState } from '../domain/models/player-state.model';
-import { PlayerStateService } from './player/player-state.service';
-import { AudioService } from '../../infrastructure/driven-adapters/local-audio/audio.service';
+import { IPlayerUseCases } from '../../domain/ports/in/i-player.use-cases';
+import { IMusicRepository } from '../../domain/ports/out/i-music.repository';
+import { Song } from '../../domain/models/song.model';
+import { PlayerState } from '../../domain/models/player-state.model';
+import { PlayerStateService } from './player-state.service';
+import { AudioService } from '../../../infrastructure/driven-adapters/local-audio/audio.service';
 
 @Injectable({
   providedIn: 'root',
