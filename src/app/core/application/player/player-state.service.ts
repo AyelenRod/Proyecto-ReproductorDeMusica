@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { PlayerState } from '../../core/domain/models/player-state.model';
-import { Song } from '../../core/domain/models/song.model';
+import { PlayerState } from '../../domain/models/player-state.model';
+import { Song } from '../../domain/models/song.model';
 
 @Injectable({ providedIn: 'root' })
 export class PlayerStateService {

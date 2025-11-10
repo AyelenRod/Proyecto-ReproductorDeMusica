@@ -5,7 +5,7 @@ import { IPlayerUseCases } from '../domain/ports/in/i-player.use-cases';
 import { IMusicRepository } from '../domain/ports/out/i-music.repository';
 import { Song } from '../domain/models/song.model';
 import { PlayerState } from '../domain/models/player-state.model';
-import { PlayerStateService } from '../../infrastructure/services/player-state.service';
+import { PlayerStateService } from './player/player-state.service';
 import { AudioService } from '../../infrastructure/driven-adapters/local-audio/audio.service';
 
 @Injectable({
