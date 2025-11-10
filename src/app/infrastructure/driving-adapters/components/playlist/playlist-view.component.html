@@ -1,6 +1,6 @@
+
 <div class="playlist-view">
   <div class="song-list-panel">
-    <!-- Barra de búsqueda -->
     <div class="search-bar-container">
       <input 
         type="text" 
@@ -8,7 +8,7 @@
         placeholder="🔍 BUSCAR MÚSICA..."
         [(ngModel)]="searchQuery"
         (keyup.enter)="navigateToSearch()"
-        (click)="navigateToSearch()">
+        (focus)="onSearchFocus()">
     </div>
 
     <h2 class="playlist-title">{{ playlistTitle }}</h2>
