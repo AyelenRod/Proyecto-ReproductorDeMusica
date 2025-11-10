@@ -9,7 +9,7 @@ import { PlayerState } from '../../../../core/domain/models/player-state.model';
 @Component({
   selector: 'app-playlist-view',
   templateUrl: './playlist-view.component.html',
-  styleUrls: ['./playlist-view.component.scss'],
+  styleUrls: ['./playlist-view.component.css'], // ← Cambiado a .css
   standalone: false
 })
 export class PlaylistViewComponent implements OnInit {
@@ -28,7 +28,7 @@ export class PlaylistViewComponent implements OnInit {
 
   constructor(
     private playerUseCases: IPlayerUseCases,
-    private router: Router  // ← AGREGADO: Inyección del Router
+    private router: Router
   ) {
     this.playerState$ = this.playerUseCases.getState();
     this.currentSong$ = this.playerState$.pipe(map(s => s.currentSong));
@@ -67,7 +67,6 @@ export class PlaylistViewComponent implements OnInit {
     });
   }
 
-  // ← Función para navegar a la búsqueda
   navigateToSearch(): void {
     this.router.navigate(['/search'], { 
       queryParams: { q: this.searchQuery } 
