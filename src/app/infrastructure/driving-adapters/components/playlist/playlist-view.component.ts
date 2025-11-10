@@ -67,10 +67,22 @@ export class PlaylistViewComponent implements OnInit {
     });
   }
 
+  onSearchFocus(): void {
+    if (this.searchQuery && this.searchQuery.trim().length > 0) {
+      this.navigateToSearch();
+    } else {
+      this.router.navigate(['/search']);
+    }
+  }
+
   navigateToSearch(): void {
-    this.router.navigate(['/search'], { 
-      queryParams: { q: this.searchQuery } 
-    });
+    if (this.searchQuery && this.searchQuery.trim().length > 0) {
+      this.router.navigate(['/search'], { 
+        queryParams: { q: this.searchQuery } 
+      });
+    } else {
+      this.router.navigate(['/search']);
+    }
   }
 
   onSearchInput(): void {
@@ -78,7 +90,7 @@ export class PlaylistViewComponent implements OnInit {
   }
 
   onSongClick(song: Song): void {
-    console.log('Reproduciendo:', song.title);
+    console.log('🎵 Reproduciendo:', song.title);
     this.playerUseCases.playSong(song);
   }
 
