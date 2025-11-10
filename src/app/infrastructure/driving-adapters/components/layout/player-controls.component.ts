@@ -6,7 +6,7 @@ import { PlayerState } from '../../../../core/domain/models/player-state.model';
 @Component({
   selector: 'app-player-controls',
   templateUrl: './player-controls.component.html',
-  styleUrls: ['./player-controls.component.scss'],
+  styleUrls: ['./player-controls.component.css'], // ← Cambiado a .css
   standalone: false
 })
 export class PlayerControlsComponent {
@@ -17,7 +17,7 @@ export class PlayerControlsComponent {
     this.playerState$ = this.playerUseCases.getState();
   }
 
-  togglePlayPause(isPlaying: boolean) {
+  togglePlayPause(isPlaying: boolean): void {
     if (isPlaying) {
       this.playerUseCases.pause();
     } else {
