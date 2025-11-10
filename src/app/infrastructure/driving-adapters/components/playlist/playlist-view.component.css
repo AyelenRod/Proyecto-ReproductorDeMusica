@@ -7,7 +7,6 @@
   overflow: hidden;
 }
 
-/* ========== COLUMNA IZQUIERDA: Lista de canciones ========== */
 .song-list-panel {
   background: rgba(173, 216, 230, 0.9);
   padding: 0;
@@ -166,7 +165,6 @@
   font-size: 1rem;
 }
 
-/* ========== COLUMNA DERECHA: Portada y reproductor ========== */
 .album-panel {
   display: flex;
   align-items: center;
@@ -373,7 +371,6 @@
   }
 }
 
-/* ========== Responsive ========== */
 @media (max-width: 768px) {
   .playlist-view {
     grid-template-columns: 1fr;

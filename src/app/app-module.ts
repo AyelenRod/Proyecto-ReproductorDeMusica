@@ -18,8 +18,8 @@ import { SpotifyInterceptor } from './infrastructure/driven-adapters/spotify-api
 
 // Components
 import { App } from './app';
-import { PlaylistViewComponent } from './infrastructure/driving-adapters/components/pages/playlist-view.component';
-import { SearchViewComponent } from './infrastructure/driving-adapters/components/pages/search-view.component';
+import { PlaylistViewComponent } from './infrastructure/driving-adapters/components/playlist/playlist-view.component';
+import { SearchViewComponent } from './infrastructure/driving-adapters/components/search/search-view.component';
 
 @NgModule({
   declarations: [

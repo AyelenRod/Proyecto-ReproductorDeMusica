@@ -7,7 +7,6 @@
   gap: 16px;
 }
 
-/* ============ LEFT: Song Info ============ */
 .song-info {
   display: flex;
   align-items: center;
@@ -75,7 +74,6 @@
   display: block;
 }
 
-/* ============ CENTER: Player Controls ============ */
 .player-center {
   display: flex;
   flex-direction: column;
@@ -208,7 +206,6 @@
   opacity: 1;
 }
 
-/* ============ RIGHT: Volume & Options ============ */
 .player-right {
   display: flex;
   align-items: center;
@@ -284,7 +281,6 @@
   opacity: 1;
 }
 
-/* ============ Responsive ============ */
 @media (max-width: 768px) {
   .controls-container {
     grid-template-columns: 1fr;

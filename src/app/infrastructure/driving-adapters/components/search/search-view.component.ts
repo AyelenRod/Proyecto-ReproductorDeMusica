@@ -19,7 +19,6 @@ export class SearchViewComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   hasSearched: boolean = false;
   
-  // Autocompletado
   showSuggestions: boolean = false;
   suggestions: string[] = [];
   private searchHistory: string[] = []; 

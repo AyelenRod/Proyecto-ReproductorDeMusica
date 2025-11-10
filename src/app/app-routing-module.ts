@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PlaylistViewComponent } from './infrastructure/driving-adapters/components/pages/playlist-view.component';
-import { SearchViewComponent } from './infrastructure/driving-adapters/components/pages/search-view.component';
+import { PlaylistViewComponent } from './infrastructure/driving-adapters/components/playlist/playlist-view.component';
+import { SearchViewComponent } from './infrastructure/driving-adapters/components/search/search-view.component';
 
 const routes: Routes = [
   { path: '', component: PlaylistViewComponent },

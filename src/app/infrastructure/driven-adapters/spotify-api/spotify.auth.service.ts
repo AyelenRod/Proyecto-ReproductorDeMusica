@@ -13,7 +13,6 @@ export class SpotifyAuthService {
   constructor(private http: HttpClient) {}
 
   getToken(): Observable<string> {
-    // Si el token existe y no ha expirado, reutilizarlo
     if (this.currentToken && Date.now() < this.tokenExpiry) {
       console.log(' Usando token en caché');
       return of(this.currentToken);
@@ -35,7 +34,6 @@ export class SpotifyAuthService {
       tap(response => console.log('Token recibido:', response)),
       map(response => {
         this.currentToken = response.access_token;
-        // Spotify tokens duran 3600 segundos (1 hora)
         this.tokenExpiry = Date.now() + (response.expires_in * 1000);
         console.log('Token guardado, expira en:', response.expires_in, 'segundos');
         return this.currentToken!;

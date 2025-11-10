@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IPlayerUseCases } from '../../../../core/domain/ports/in/i-player.use-cases';
-import { PlayerState } from '../../../../core/domain/models/player-state.model';
+import { IPlayerUseCases } from '../../../../../core/domain/ports/in/i-player.use-cases';
+import { PlayerState } from '../../../../../core/domain/models/player-state.model';
 
 @Component({
   selector: 'app-player-controls',
   templateUrl: './player-controls.component.html',
-  styleUrls: ['./player-controls.component.css'], // ← Cambiado a .css
+  styleUrls: ['./player-controls.component.css'], 
   standalone: false
 })
 export class PlayerControlsComponent {

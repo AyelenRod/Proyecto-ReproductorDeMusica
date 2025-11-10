@@ -6,7 +6,6 @@
   overflow: hidden;
 }
 
-/* ========== BARRA DE BÚSQUEDA ========== */
 .search-bar-container {
   padding: 20px;
   background: rgba(173, 216, 230, 0.95);
@@ -118,7 +117,6 @@
   display: block;
 }
 
-/* ========== AUTOCOMPLETADO ========== */
 .search-bar-container .search-input-wrapper .autocomplete-suggestions {
   position: absolute;
   top: calc(100% + 8px);
@@ -180,7 +178,6 @@
   }
 }
 
-/* ========== CONTENEDOR DE RESULTADOS CON SCROLL ========== */
 .search-results-container {
   flex: 1;
   overflow-y: auto;
@@ -205,12 +202,10 @@
   background: rgba(255, 255, 255, 0.4);
 }
 
-/* ========== RESULTADOS ========== */
 .search-results {
   padding: 32px;
 }
 
-/* ========== LOADING ========== */
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -240,7 +235,6 @@
   to { transform: rotate(360deg); }
 }
 
-/* ========== SIN RESULTADOS ========== */
 .no-results {
   display: flex;
   flex-direction: column;
@@ -268,7 +262,6 @@
   opacity: 0.8;
 }
 
-/* ========== ESTADO INICIAL ========== */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -296,7 +289,6 @@
   opacity: 0.8;
 }
 
-/* ========== SECCIÓN DE RESULTADOS ========== */
 .results-section {
   margin-bottom: 60px;
   animation: fadeInUp 0.6s ease-out;
@@ -327,7 +319,6 @@
   }
 }
 
-/* ========== GRID DE ARTISTAS ========== */
 .artists-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -394,7 +385,6 @@
   color: #718096;
 }
 
-/* ========== GRID DE CANCIONES ========== */
 .tracks-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -503,7 +493,6 @@
   margin-left: 2px;
 }
 
-/* ========== GRID DE ÁLBUMES ========== */
 .albums-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -568,7 +557,6 @@
   font-weight: 700;
 }
 
-/* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
   .search-bar-container {
     padding: 16px 20px;

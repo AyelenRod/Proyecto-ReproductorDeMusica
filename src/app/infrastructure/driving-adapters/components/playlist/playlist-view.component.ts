@@ -9,7 +9,7 @@ import { PlayerState } from '../../../../core/domain/models/player-state.model';
 @Component({
   selector: 'app-playlist-view',
   templateUrl: './playlist-view.component.html',
-  styleUrls: ['./playlist-view.component.css'], // ← Cambiado a .css
+  styleUrls: ['./playlist-view.component.css'], 
   standalone: false
 })
 export class PlaylistViewComponent implements OnInit {
@@ -78,7 +78,7 @@ export class PlaylistViewComponent implements OnInit {
   }
 
   onSongClick(song: Song): void {
-    console.log('🎵 Reproduciendo:', song.title);
+    console.log('Reproduciendo:', song.title);
     this.playerUseCases.playSong(song);
   }
 
