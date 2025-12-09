@@ -6,7 +6,7 @@ import { IMusicRepository } from '../../domain/ports/out/i-music.repository';
 import { Song } from '../../domain/models/song.model';
 import { PlayerState } from '../../domain/models/player-state.model';
 import { PlayerStateService } from './player-state.service';
-import { AudioService } from '../../../infrastructure/driven-adapters/local-audio/audio.service';
+
 
 @Injectable({
   providedIn: 'root',
@@ -15,14 +15,8 @@ export class PlayerService implements IPlayerUseCases {
 
   constructor(
     private musicRepository: IMusicRepository,
-    private state: PlayerStateService,
-    private audio: AudioService
+    private state: PlayerStateService
   ) {
-    this.audio.progress$.subscribe(progress => this.state.setProgress(progress));
-    this.audio.ended$.subscribe(() => {
-      this.state.pause();
-      this.playNext();
-    });
   }
 
   getState(): Observable<PlayerState> {
