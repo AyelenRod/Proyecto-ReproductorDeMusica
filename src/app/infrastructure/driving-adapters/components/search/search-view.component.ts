@@ -19,7 +19,7 @@ export class SearchViewComponent implements OnInit, OnDestroy {
   searchResults$: Observable<SearchResult | null> = of(null);
   isLoading: boolean = false;
   hasSearched: boolean = false;
-  
+
   // Autocompletado
   showSuggestions: boolean = false;
   suggestions: string[] = [];
@@ -32,7 +32,7 @@ export class SearchViewComponent implements OnInit, OnDestroy {
     private searchUseCases: ISearchUseCases,
     private playerUseCases: IPlayerUseCases,
     private musicRepository: IMusicRepository
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams
@@ -49,7 +49,7 @@ export class SearchViewComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    
+
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
     }
@@ -62,7 +62,7 @@ export class SearchViewComponent implements OnInit, OnDestroy {
         queryParams: { q: this.searchQuery },
         queryParamsHandling: 'merge'
       });
-      
+
       this.performSearch(this.searchQuery);
     }
   }
@@ -89,7 +89,7 @@ export class SearchViewComponent implements OnInit, OnDestroy {
 
     const query = this.searchQuery.toLowerCase();
     const history = this.searchUseCases.getSearchHistory();
-    
+
     this.suggestions = history
       .filter(item => item.toLowerCase().includes(query))
       .slice(0, 5);
@@ -120,7 +120,7 @@ export class SearchViewComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
     this.hasSearched = true;
-    
+
     this.searchResults$ = this.searchUseCases.search(query).pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -129,7 +129,6 @@ export class SearchViewComponent implements OnInit, OnDestroy {
         return of(results);
       }),
       catchError(error => {
-        console.error('Error en búsqueda:', error);
         this.isLoading = false;
         return of(null);
       }),
@@ -146,7 +145,7 @@ export class SearchViewComponent implements OnInit, OnDestroy {
       imageUrl: track.imageUrl,
       previewUrl: track.previewUrl
     };
-    
+
     this.playerUseCases.playSong(song);
   }
 

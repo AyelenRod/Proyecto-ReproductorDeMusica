@@ -36,23 +36,14 @@ export class PlayerService implements IPlayerUseCases {
   }
 
   playSong(song: Song): void {
-    if (song.previewUrl) {
-      this.audio.load(song.previewUrl);
-      this.audio.play();
-      this.state.play(song);
-    } else {
-      console.warn('Esta canción no tiene preview y no se puede reproducir.');
-      this.selectSong(song);
-    }
+    this.state.play(song);
   }
 
   pause(): void {
-    this.audio.pause();
     this.state.pause();
   }
 
   resume(): void {
-    this.audio.play();
     this.state.resume();
   }
 

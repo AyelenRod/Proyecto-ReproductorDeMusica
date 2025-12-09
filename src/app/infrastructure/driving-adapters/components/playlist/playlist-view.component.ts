@@ -9,7 +9,7 @@ import { PlayerState } from '../../../../core/domain/models/player-state.model';
 @Component({
   selector: 'app-playlist-view',
   templateUrl: './playlist-view.component.html',
-  styleUrls: ['./playlist-view.component.css'], 
+  styleUrls: ['./playlist-view.component.css'],
   standalone: false
 })
 export class PlaylistViewComponent implements OnInit {
@@ -19,10 +19,10 @@ export class PlaylistViewComponent implements OnInit {
   currentSong$: Observable<Song | null>;
   isPlaying$: Observable<boolean>;
   playerState$: Observable<PlayerState>;
-  
+
   searchQuery: string = '';
   playlistTitle: string = 'MAP OF THE SOUL 7';
-  
+
   private searchQuery$ = new BehaviorSubject<string>('');
   private playlistId = '67iNkhe5Dfzxuo5mDDgmya';
 
@@ -36,9 +36,8 @@ export class PlaylistViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('Cargando playlist ID:', this.playlistId);
     this.playlist$ = this.playerUseCases.loadSongs(this.playlistId);
-    
+
     this.filteredSongs$ = combineLatest([
       this.playlist$,
       this.searchQuery$
@@ -47,24 +46,15 @@ export class PlaylistViewComponent implements OnInit {
         if (!query || query.trim() === '') {
           return songs;
         }
-        
+
         const lowerQuery = query.toLowerCase().trim();
-        return songs.filter(song => 
+        return songs.filter(song =>
           song.title.toLowerCase().includes(lowerQuery) ||
           song.artist.toLowerCase().includes(lowerQuery) ||
           song.album.toLowerCase().includes(lowerQuery)
         );
       })
     );
-    
-    this.playlist$.subscribe({
-      next: (songs) => {
-        console.log('Canciones cargadas:', songs.length);
-      },
-      error: (error) => {
-        console.error('Error al cargar:', error);
-      }
-    });
   }
 
   onSearchFocus(): void {
@@ -77,8 +67,8 @@ export class PlaylistViewComponent implements OnInit {
 
   navigateToSearch(): void {
     if (this.searchQuery && this.searchQuery.trim().length > 0) {
-      this.router.navigate(['/search'], { 
-        queryParams: { q: this.searchQuery } 
+      this.router.navigate(['/search'], {
+        queryParams: { q: this.searchQuery }
       });
     } else {
       this.router.navigate(['/search']);
@@ -90,7 +80,6 @@ export class PlaylistViewComponent implements OnInit {
   }
 
   onSongClick(song: Song): void {
-    console.log('🎵 Reproduciendo:', song.title);
     this.playerUseCases.playSong(song);
   }
 
